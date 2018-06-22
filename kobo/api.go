@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"regexp"
 	"strconv"
 )
 
@@ -13,6 +14,17 @@ type UpgradeCheckResult struct {
 	ReleaseNoteURL string
 	UpgradeType    UpgradeType
 	UpgradeURL     string
+}
+
+var verRe = regexp.MustCompile(`[0-9]+\.[0-9]+(\.[0-9]+)?`)
+
+// ParseVersion tries to extract the version from the UpgradeURL. It returns 0.0.0 if none is present.
+func (u UpgradeCheckResult) ParseVersion() string {
+	m := verRe.FindString(u.UpgradeURL)
+	if !u.UpgradeType.IsUpdate() || m == "" {
+		return "0.0.0"
+	}
+	return m
 }
 
 // UpgradeType represents an upgrade type.
