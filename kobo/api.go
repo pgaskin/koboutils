@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"regexp"
 	"strconv"
+	"time"
 )
 
 // UpgradeCheckResult represents an update check result from the Kobo API.
@@ -57,7 +58,7 @@ func (u UpgradeType) IsUpdate() bool {
 
 // CheckUpgrade queries the Kobo API for an update.
 func CheckUpgrade(device, affiliate, curVersion, serial string) (*UpgradeCheckResult, error) {
-	resp, err := http.Get(fmt.Sprintf("https://api.kobobooks.com/1.0/UpgradeCheck/Device/%s/%s/%s/%s", device, affiliate, curVersion, serial))
+	resp, err := (&http.Client{Timeout: time.Second * 10}).Get(fmt.Sprintf("https://api.kobobooks.com/1.0/UpgradeCheck/Device/%s/%s/%s/%s", device, affiliate, curVersion, serial))
 	if err != nil {
 		return nil, err
 	}
