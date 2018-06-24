@@ -27,3 +27,13 @@ var (
 	DeviceClaraHD               = Device{"00000000-0000-0000-0000-000000000376", "Kobo Clara HD", "kobo7"}
 	Devices                     = []Device{DeviceTouchAB, DeviceTouchC, DeviceMini, DeviceGlo, DeviceGloHD, DeviceTouch2, DeviceAura, DeviceAuraHD, DeviceAuraH2O, DeviceAuraH2OEdition2v1, DeviceAuraH2OEdition2v2, DeviceAuraONE, DeviceAuraONELimitedEdition, DeviceAuraEdition2v1, DeviceAuraEdition2v2}
 )
+
+// DeviceByID gets the device by the ID.
+func DeviceByID(id string) (*Device, bool) {
+	for _, device := range Devices {
+		if device.ID == id {
+			return &device, true
+		}
+	}
+	return nil, false
+}
