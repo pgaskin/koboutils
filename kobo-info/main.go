@@ -11,6 +11,7 @@ import (
 	"github.com/spf13/pflag"
 )
 
+var version = "dev"
 var jsono = false
 
 func main() {
@@ -19,7 +20,8 @@ func main() {
 	pflag.Parse()
 
 	if *help || pflag.NArg() > 1 {
-		fmt.Fprintf(os.Stderr, "Usage: kobo-info [OPTIONS] [KOBO_PATH]\n\nOptions:\n")
+		fmt.Fprintf(os.Stderr, "Usage: kobo-info [OPTIONS] [KOBO_PATH]\n")
+		fmt.Fprintf(os.Stderr, "\nVersion: %s\n\nOptions:\n", version)
 		pflag.PrintDefaults()
 		fmt.Fprintf(os.Stderr, "\nIf KOBO_PATH is not specified, kobo-info will attempt to look for a kobo device.\n")
 		os.Exit(1)

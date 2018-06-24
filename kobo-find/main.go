@@ -8,13 +8,16 @@ import (
 	"github.com/spf13/pflag"
 )
 
+var version = "dev"
+
 func main() {
 	first := pflag.BoolP("first", "f", false, "only show the first kobo detected")
 	help := pflag.BoolP("help", "h", false, "show this help text")
 	pflag.Parse()
 
 	if *help || pflag.NArg() != 0 {
-		fmt.Fprintf(os.Stderr, "Usage: kobo-find [OPTIONS]\n\nOptions:\n")
+		fmt.Fprintf(os.Stderr, "Usage: kobo-find [OPTIONS]\n")
+		fmt.Fprintf(os.Stderr, "\nVersion: %s\n\nOptions:\n", version)
 		pflag.PrintDefaults()
 		fmt.Fprintf(os.Stderr, "\nkobo-find requires the findmnt command on linux.\n")
 		os.Exit(1)
