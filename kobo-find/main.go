@@ -22,7 +22,7 @@ func main() {
 
 	kobos, err := kobo.Find()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error: %s", err)
+		fmt.Fprintf(os.Stderr, "Error: %v", err)
 		os.Exit(1)
 	}
 
