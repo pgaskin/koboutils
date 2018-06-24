@@ -1,6 +1,7 @@
 package kobo
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -38,28 +39,38 @@ func TestVersionCompare(t *testing.T) {
 }
 
 func TestParseKoboVersion(t *testing.T) {
+	if err := fakekobo(func(kpath string) {
+		serial, version, id, err := ParseKoboVersion(kpath)
+		if err != nil {
+			t.Error(err)
+		}
+
+		if serial != "N345345345" || version != "4.8.11073" || id != "00000000-0000-0000-0000-000000000375" {
+			t.Errorf("unexpected result: %s, %s, %s, %v", serial, version, id, err)
+		}
+	}); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func fakekobo(fn func(kpath string)) error {
 	td, err := ioutil.TempDir("", "koboutils")
 	if err != nil {
-		t.Fatalf("could not make temp dir: %v", err)
+		return fmt.Errorf("could not make temp dir: %v", err)
 	}
 	defer os.RemoveAll(td)
 
 	err = os.Mkdir(filepath.Join(td, ".kobo"), 0755)
 	if err != nil {
-		t.Fatalf("could make fake .kobo dir: %v", err)
+		return fmt.Errorf("could make fake .kobo dir: %v", err)
 	}
 
 	err = ioutil.WriteFile(filepath.Join(td, ".kobo", "version"), []byte("N345345345,3.0.35+,4.8.11073,3.0.35+,3.0.35+,00000000-0000-0000-0000-000000000375"), 0644)
 	if err != nil {
-		t.Fatalf("could not write fake version file: %v", err)
+		return fmt.Errorf("could not write fake version file: %v", err)
 	}
 
-	serial, version, id, err := ParseKoboVersion(td)
-	if err != nil {
-		t.Error(err)
-	}
+	fn(td)
 
-	if serial != "N345345345" || version != "4.8.11073" || id != "00000000-0000-0000-0000-000000000375" {
-		t.Errorf("unexpected result: %s, %s, %s, %v", serial, version, id, err)
-	}
+	return nil
 }

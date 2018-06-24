@@ -1,9 +1,11 @@
 package kobo
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"path/filepath"
+	"regexp"
 	"strings"
 )
 
@@ -38,4 +40,17 @@ func ParseKoboVersion(kpath string) (serial, version, id string, err error) {
 		return "", "", "", fmt.Errorf("length of split version file should be 6, got %d", len(spl))
 	}
 	return spl[0], spl[2], spl[5], nil
+}
+
+// ParseKoboAffiliate parses the affiliate from the .kobo/affiliate.conf file.
+func ParseKoboAffiliate(kpath string) (affiliate string, err error) {
+	abuf, err := ioutil.ReadFile(filepath.Join(kpath, ".kobo", "affiliate.conf"))
+	if err != nil {
+		return "", err
+	}
+	m := regexp.MustCompile(`affiliate *= *([a-zA-Z0-9]+)`).FindStringSubmatch(string(abuf))
+	if len(m) != 2 {
+		return "", errors.New("could not parse affiliate.conf")
+	}
+	return m[1], nil
 }
