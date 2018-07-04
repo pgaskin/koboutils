@@ -10,6 +10,7 @@ import (
 	"io/ioutil"
 	"os"
 	"regexp"
+	"runtime"
 	"strings"
 	"time"
 
@@ -155,5 +156,9 @@ func main() {
 
 	if date != nil {
 		fmt.Printf("    Date: %s\n", (*date).Format("January 2006"))
+	}
+
+	if runtime.GOOS == "windows" {
+		time.Sleep(time.Second * 4)
 	}
 }
