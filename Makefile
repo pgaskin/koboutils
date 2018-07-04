@@ -37,5 +37,5 @@ release: clean
 	archiver make build/dist/koboutils_darwin-x64.tar.gz build/*_darwin-x64
 
 ifdef GITHUB_TOKEN
-    ghr -delete $(ver) build/dist
+	ghr -delete $(ver) build/dist
 endif
