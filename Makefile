@@ -4,9 +4,13 @@ default: clean test build
 ver := $(shell git describe --tags --always --dirty)
 ldflags := -X main.version=$(ver)
 
-.PHONY: clean test build
+.PHONY: clean deps test build
 clean:
 	rm -rfv build
+
+deps:
+	go get github.com/tcnksm/ghr
+	go get github.com/mholt/archiver/cmd/archiver
 
 test:
 	go test ./...
@@ -16,9 +20,6 @@ build:
 	go build -ldflags "$(ldflags)" -o "build/kobo-info" ./kobo-info
 
 release: clean
-	go get github.com/tcnksm/ghr
-	go get github.com/mholt/archiver/cmd/archiver
-	
 	GOOS=windows GOARCH=386 go build -ldflags "$(ldflags)" -o "build/kobo-find_windows.exe" ./kobo-find
 	GOOS=linux GOARCH=amd64 go build -ldflags "$(ldflags)" -o "build/kobo-find_linux-x64" ./kobo-find
 	GOOS=darwin GOARCH=amd64 go build -ldflags "$(ldflags)" -o "build/kobo-find_darwin-x64" ./kobo-find

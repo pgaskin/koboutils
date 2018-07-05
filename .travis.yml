@@ -4,6 +4,7 @@ go:
 
 script:
  - make clean
+ - make deps
  - make test
  - make build
 
