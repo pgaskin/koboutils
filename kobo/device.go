@@ -25,7 +25,8 @@ var (
 	DeviceAuraEdition2v1        = Device{"00000000-0000-0000-0000-000000000375", "Kobo Aura Edition 2 v1", "kobo6"}
 	DeviceAuraEdition2v2        = Device{"00000000-0000-0000-0000-000000000379", "Kobo Aura Edition 2 v2", "kobo7"}
 	DeviceClaraHD               = Device{"00000000-0000-0000-0000-000000000376", "Kobo Clara HD", "kobo7"}
-	Devices                     = []Device{DeviceTouchAB, DeviceTouchC, DeviceMini, DeviceGlo, DeviceGloHD, DeviceTouch2, DeviceAura, DeviceAuraHD, DeviceAuraH2O, DeviceAuraH2OEdition2v1, DeviceAuraH2OEdition2v2, DeviceAuraONE, DeviceAuraONELimitedEdition, DeviceAuraEdition2v1, DeviceAuraEdition2v2}
+	DeviceForma                 = Device{"00000000-0000-0000-0000-000000000380", "Kobo Forma", "kobo7"}
+	Devices                     = []Device{DeviceTouchAB, DeviceTouchC, DeviceMini, DeviceGlo, DeviceGloHD, DeviceTouch2, DeviceAura, DeviceAuraHD, DeviceAuraH2O, DeviceAuraH2OEdition2v1, DeviceAuraH2OEdition2v2, DeviceAuraONE, DeviceAuraONELimitedEdition, DeviceAuraEdition2v1, DeviceAuraEdition2v2, DeviceForma}
 )
 
 // DeviceByID gets the device by the ID.
