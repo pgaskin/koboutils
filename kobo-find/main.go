@@ -12,6 +12,7 @@ var version = "dev"
 
 func main() {
 	first := pflag.BoolP("first", "f", false, "only show the first kobo detected")
+	wait := pflag.BoolP("wait", "w", false, "wait for a device to appear")
 	help := pflag.BoolP("help", "h", false, "show this help text")
 	pflag.Parse()
 
@@ -23,10 +24,17 @@ func main() {
 		os.Exit(1)
 	}
 
-	kobos, err := kobo.Find()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
-		os.Exit(1)
+	var kobos []string
+	var err error
+	for {
+		kobos, err = kobo.Find()
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+			os.Exit(1)
+		}
+		if len(kobos) > 0 || !*wait {
+			break
+		}
 	}
 
 	if len(kobos) < 1 {
