@@ -10,7 +10,7 @@ clean:
 
 deps:
 	go get github.com/tcnksm/ghr
-	go get github.com/mholt/archiver/cmd/archiver
+	go get github.com/mholt/archiver/cmd/arc
 
 test:
 	go test ./...
@@ -33,9 +33,9 @@ release: clean
 	GOOS=darwin GOARCH=amd64 go build -ldflags "$(ldflags)" -o "build/kobo-versionextract_darwin-x64" ./kobo-versionextract
 
 	mkdir build/dist
-	archiver make build/dist/koboutils_windows.zip build/*_windows.exe
-	archiver make build/dist/koboutils_linux-x64.tar.gz build/*_linux-x64
-	archiver make build/dist/koboutils_darwin-x64.tar.gz build/*_darwin-x64
+	arc archive build/dist/koboutils_windows.zip build/*_windows.exe
+	arc archive build/dist/koboutils_linux-x64.tar.gz build/*_linux-x64
+	arc archive build/dist/koboutils_darwin-x64.tar.gz build/*_darwin-x64
 
 ifdef GITHUB_TOKEN
 	ghr -delete $(ver) build/dist
