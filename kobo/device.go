@@ -74,7 +74,7 @@ const (
 
 // Cover types.
 const (
-	CoverTypeLibFull CoverType = "N3_FULL"
+	CoverTypeLibFull CoverType = "N3_LIBRARY_FULL"
 	CoverTypeLibList CoverType = "N3_LIBRARY_LIST"
 	CoverTypeLibGrid CoverType = "N3_LIBRARY_GRID"
 )
