@@ -74,6 +74,7 @@ const (
 
 // Cover types.
 const (
+	CoverTypeFull    CoverType = "N3_FULL"
 	CoverTypeLibFull CoverType = "N3_LIBRARY_FULL"
 	CoverTypeLibList CoverType = "N3_LIBRARY_LIST"
 	CoverTypeLibGrid CoverType = "N3_LIBRARY_GRID"
@@ -84,7 +85,7 @@ func Devices() []Device {
 }
 
 func CoverTypes() []CoverType {
-	return []CoverType{CoverTypeLibFull, CoverTypeLibList, CoverTypeLibGrid}
+	return []CoverType{CoverTypeFull, CoverTypeLibFull, CoverTypeLibList, CoverTypeLibGrid}
 }
 
 func DeviceByID(id string) (Device, bool) {
@@ -284,7 +285,9 @@ func (d Device) CoverSize(t CoverType) image.Point {
 		return image.Pt(60, 90)
 	} else if t == CoverTypeLibGrid {
 		return image.Pt(149, 223)
-	} else if t != CoverTypeLibFull {
+	} else if t == CoverTypeLibFull {
+		return image.Pt(355, 530)
+	} else if t != CoverTypeFull {
 		panic("unknown cover type")
 	}
 
@@ -325,9 +328,9 @@ func (c CoverType) String() string {
 // Resize returns the dimensions to resize sz to for the cover type and target size.
 func (c CoverType) Resize(target image.Point, sz image.Point) image.Point {
 	switch c {
-	case CoverTypeLibList:
+	case CoverTypeFull:
 		return resizeKeepAspectRatio(sz, target, false)
-	case CoverTypeLibFull, CoverTypeLibGrid:
+	case CoverTypeLibFull, CoverTypeLibGrid, CoverTypeLibList:
 		return resizeKeepAspectRatio(sz, target, true)
 	}
 	panic("unknown cover type")
