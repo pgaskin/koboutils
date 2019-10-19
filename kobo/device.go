@@ -341,7 +341,7 @@ func (c CoverType) GeneratePath(external bool, iid string) string {
 		cdir = "koboExtStorage/images-cache"
 	}
 	dir1, dir2, base := hashedImageParts(iid)
-	return fmt.Sprintf("%s/%s/%s/%s - %s.jpg", cdir, dir1, dir2, base, c.NickelString())
+	return fmt.Sprintf("%s/%s/%s/%s - %s.parsed", cdir, dir1, dir2, base, c.NickelString())
 }
 
 func (d Device) StorageGB() int {

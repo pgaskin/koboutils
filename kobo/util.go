@@ -50,7 +50,7 @@ func resizeKeepAspectRatio(sz image.Point, bounds image.Point, expand bool) imag
 
 // hashedImageParts returns the parts needed for constructing the path to the
 // cached image. The result can be applied like:
-// .kobo-images/{dir1}/{dir2}/{basename} - N3_SOMETHING.jpg
+// .kobo-images/{dir1}/{dir2}/{basename} - N3_SOMETHING.parsed
 func hashedImageParts(imageID string) (dir1, dir2, basename string) {
 	imgID := []byte(imageID)
 	h := uint32(0x00000000)
