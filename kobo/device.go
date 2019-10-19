@@ -310,12 +310,27 @@ func (d Device) CoverSize(t CoverType) image.Point {
 	}
 }
 
+func (d Device) CoverSized(t CoverType, orig image.Point) image.Point {
+	return t.Resize(d.CoverSize(t), orig)
+}
+
 func (c CoverType) NickelString() string {
 	return string(c)
 }
 
 func (c CoverType) String() string {
 	return c.NickelString()
+}
+
+// Resize returnes the dimensions to resize sz to for the cover type and target size.
+func (c CoverType) Resize(target image.Point, sz image.Point) image.Point {
+	switch c {
+	case CoverTypeLibList:
+		return resizeKeepAspectRatio(sz, target, false)
+	case CoverTypeLibFull, CoverTypeLibGrid:
+		return resizeKeepAspectRatio(sz, target, true)
+	}
+	panic("unknown cover type")
 }
 
 func (d Device) StorageGB() int {
