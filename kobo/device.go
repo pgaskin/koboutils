@@ -74,7 +74,7 @@ const (
 
 // Cover types.
 const (
-	CoverTypeLibFull CoverType = "N3_LIBRARY_FULL"
+	CoverTypeLibFull CoverType = "N3_FULL"
 	CoverTypeLibList CoverType = "N3_LIBRARY_LIST"
 	CoverTypeLibGrid CoverType = "N3_LIBRARY_GRID"
 )
@@ -308,6 +308,14 @@ func (d Device) CoverSize(t CoverType) image.Point {
 	default:
 		return image.Pt(600, 800)
 	}
+}
+
+func (c CoverType) NickelString() string {
+	return string(c)
+}
+
+func (c CoverType) String() string {
+	return c.NickelString()
 }
 
 func (d Device) StorageGB() int {
