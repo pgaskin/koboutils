@@ -335,9 +335,13 @@ func (c CoverType) Resize(target image.Point, sz image.Point) image.Point {
 
 // GeneratePath generates the path for the cover of an ImageID. The path is always
 // separated with forward slashes.
-func (c CoverType) GeneratePath(iid string) string {
+func (c CoverType) GeneratePath(external bool, iid string) string {
+	cdir := ".kobo-images"
+	if external {
+		cdir = "koboExtStorage/images-cache"
+	}
 	dir1, dir2, base := hashedImageParts(iid)
-	return fmt.Sprintf(".kobo-images/%s/%s/%s - %s.jpg", dir1, dir2, base, c.NickelString())
+	return fmt.Sprintf("%s/%s/%s/%s - %s.jpg", cdir, dir1, dir2, base, c.NickelString())
 }
 
 func (d Device) StorageGB() int {
