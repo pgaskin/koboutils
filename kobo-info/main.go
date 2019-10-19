@@ -56,9 +56,11 @@ func main() {
 	}
 
 	if device, ok := kobo.DeviceByID(id); ok {
-		printkv("Device", device.Name)
+		printkv("Device", device.Name())
 		printkv("Device ID", id)
-		printkv("Hardware", device.Hardware)
+		printkv("Device Family", fmt.Sprintf("%s (%s)", device.Family(), device.CodeNames().Family()))
+		printkv("Codenames", device.CodeNames().String())
+		printkv("Hardware", device.Hardware().String())
 	} else {
 		printkv("Device", "unknown")
 		printkv("Device ID", id)
@@ -96,7 +98,7 @@ func printkv(key, value string) {
 		}
 		fmt.Printf(`    "%s": "%s"`, strings.Replace(strings.ToLower(key), " ", "_", -1), value)
 	} else {
-		fmt.Printf("%10s: %s\n", key, value)
+		fmt.Printf("%15s: %s\n", key, value)
 	}
 }
 
