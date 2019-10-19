@@ -322,7 +322,7 @@ func (c CoverType) String() string {
 	return c.NickelString()
 }
 
-// Resize returnes the dimensions to resize sz to for the cover type and target size.
+// Resize returns the dimensions to resize sz to for the cover type and target size.
 func (c CoverType) Resize(target image.Point, sz image.Point) image.Point {
 	switch c {
 	case CoverTypeLibList:
@@ -331,6 +331,13 @@ func (c CoverType) Resize(target image.Point, sz image.Point) image.Point {
 		return resizeKeepAspectRatio(sz, target, true)
 	}
 	panic("unknown cover type")
+}
+
+// GeneratePath generates the path for the cover of an ImageID. The path is always
+// separated with forward slashes.
+func (c CoverType) GeneratePath(iid string) string {
+	dir1, dir2, base := hashedImageParts(iid)
+	return fmt.Sprintf(".kobo-images/%s/%s/%s - %s.jpg", dir1, dir2, base, c.NickelString())
 }
 
 func (d Device) StorageGB() int {
