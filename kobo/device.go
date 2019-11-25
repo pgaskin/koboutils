@@ -1,3 +1,4 @@
+// Package kobo contains stuff related to Kobo devices, firmware, and nickel.
 package kobo
 
 import (
@@ -8,10 +9,26 @@ import (
 // See https://gist.github.com/geek1011/613b34c23f026f7c39c50ee32f5e167e and
 // https://github.com/shermp/Kobo-UNCaGED/issues/16
 
+// Device is a device model.
 type Device int
+
+// Hardware is a hardware revision.
 type Hardware int
-type CodeName string
-type CodeNameTriplet [3]CodeName
+
+// CodeNames are used to identify the device category, devices, and variations.
+type (
+	// CodeName represents an individual codename. Note that a codename can be
+	// used for more than one thing in a triplet.
+	CodeName string
+
+	// CodeNameTriplet represents a triplet of class/family/secondary codenames.
+	// Note that nothing in nickel says a device can only have 3, but everything
+	// so far implies that (and it makes sense).
+	CodeNameTriplet [3]CodeName
+)
+
+// CoverType is used to identify different cover dimensions used for different
+// purposes by nickel.
 type CoverType string
 
 // Devices (not including really old ones, like Kobo eReader, Wireless, Literati, and Vox).
@@ -80,14 +97,17 @@ const (
 	CoverTypeLibGrid CoverType = "N3_LIBRARY_GRID"
 )
 
+// Devices returns a slice of all supported devices.
 func Devices() []Device {
 	return []Device{DeviceTouchAB, DeviceTouchC, DeviceGlo, DeviceMini, DeviceAuraHD, DeviceAura, DeviceAuraH2O, DeviceGloHD, DeviceTouch2, DeviceAuraONE, DeviceAuraH2OEdition2v1, DeviceAuraEdition2v1, DeviceClaraHD, DeviceForma, DeviceAuraH2OEdition2v2, DeviceAuraEdition2v2, DeviceForma32, DeviceAuraONELimitedEdition, DeviceLibraH2O}
 }
 
+// CoverTypes returns a slice of all implemented nickel cover types.
 func CoverTypes() []CoverType {
 	return []CoverType{CoverTypeFull, CoverTypeLibFull, CoverTypeLibList, CoverTypeLibGrid}
 }
 
+// DeviceByID gets a device by its full ID string.
 func DeviceByID(id string) (Device, bool) {
 	for _, device := range Devices() {
 		if device.IDString() == id {
@@ -97,10 +117,12 @@ func DeviceByID(id string) (Device, bool) {
 	return 0, false
 }
 
+// ID returns the numerical device ID.
 func (d Device) ID() int {
 	return int(d)
 }
 
+// IDString returns the full ID string.
 func (d Device) IDString() string {
 	return fmt.Sprintf("00000000-0000-0000-0000-%012d", d.ID())
 }
@@ -109,6 +131,7 @@ func (d Device) String() string {
 	return d.Name()
 }
 
+// Name returns the full device name.
 func (d Device) Name() string {
 	cd := d.CodeNames()
 	dev := cd.FamilyString()
@@ -132,6 +155,7 @@ func (d Device) Name() string {
 	return dev
 }
 
+// Hardware returns the hardware revision.
 func (d Device) Hardware() Hardware {
 	switch d {
 	case DeviceTouchAB:
@@ -148,6 +172,7 @@ func (d Device) Hardware() Hardware {
 	panic("unknown device")
 }
 
+// Hardware returns the numerical hardware revision.
 func (h Hardware) Hardware() int {
 	return int(h)
 }
@@ -156,6 +181,17 @@ func (h Hardware) String() string {
 	return fmt.Sprintf("kobo%d", int(h))
 }
 
+// Is replicates the Device::is* functions in libnickel.
+func (d Device) Is(n CodeName) bool {
+	cn := d.CodeNames()
+	return n != CodeNameNone && (cn.Class() == n || cn.Family() == n || cn.Secondary() == n)
+}
+
+// CodeNames returns the codename triplet for the device (like libnickel). Note:
+// Nickel has a slightly different definition if Class, Family, and Secondary,
+// but these triplets are correct (i.e. Device::is* will match nickel, and the
+// hierachy is correct). These were determined by static analysis of libnickel.
+// See PR#1 for details.
 func (d Device) CodeNames() CodeNameTriplet {
 	switch d {
 	case DeviceTouchAB, DeviceTouchC:
@@ -208,18 +244,22 @@ func (c CodeNameTriplet) String() string {
 	return fmt.Sprintf("class=%s family=%s", c[0], c[1])
 }
 
+// Family is short for Device.CodeNames().FamilyString().
 func (d Device) Family() string {
 	return d.CodeNames().FamilyString()
 }
 
+// Class gets the class/category.
 func (c CodeNameTriplet) Class() CodeName {
 	return c[0]
 }
 
+// Family gets the family/model (i.e. part of a class)
 func (c CodeNameTriplet) Family() CodeName {
 	return c[1]
 }
 
+// FamilyString gets the human readable family/model.
 func (c CodeNameTriplet) FamilyString() string {
 	switch c.Family() {
 	case CodeNameDesktop:
@@ -264,10 +304,13 @@ func (c CodeNameTriplet) FamilyString() string {
 	panic("unknown family")
 }
 
+// Secondary gets the secondary device codename (i.e. refines the family).
 func (c CodeNameTriplet) Secondary() CodeName {
 	return c[2]
 }
 
+// SecondaryString returns the human readable string to append to FamilyString
+// if applicable (e.g. Limited Edition, 32GB).
 func (c CodeNameTriplet) SecondaryString() string {
 	switch c.Secondary() {
 	case CodeNameNone:
@@ -280,6 +323,8 @@ func (c CodeNameTriplet) SecondaryString() string {
 	panic("unknown secondary")
 }
 
+// CoverSize returns the cover size for a cover type for a Device. Currently,
+// everything except for the Full cover is the same for every device.
 func (d Device) CoverSize(t CoverType) image.Point {
 	if t == CoverTypeLibList {
 		return image.Pt(60, 90)
@@ -313,10 +358,14 @@ func (d Device) CoverSize(t CoverType) image.Point {
 	}
 }
 
+// CoverSized returns a size resized to the correct size using the same logic as
+// nickel.
 func (d Device) CoverSized(t CoverType, orig image.Point) image.Point {
 	return t.Resize(d.CoverSize(t), orig)
 }
 
+// NickelString returns the internal string used in nickel to identify the cover
+// type.
 func (c CoverType) NickelString() string {
 	return string(c)
 }
@@ -347,6 +396,7 @@ func (c CoverType) GeneratePath(external bool, iid string) string {
 	return fmt.Sprintf("%s/%s/%s/%s - %s.parsed", cdir, dir1, dir2, base, c.NickelString())
 }
 
+// StorageGB returns the advertised storage capacity of a Device.
 func (d Device) StorageGB() int {
 	switch d {
 	case DeviceTouchAB, DeviceTouchC, DeviceMini:
