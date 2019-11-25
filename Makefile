@@ -9,8 +9,8 @@ clean:
 	rm -rfv build
 
 deps:
-	go get github.com/tcnksm/ghr
-	go get github.com/mholt/archiver/cmd/arc
+	GO111MODULE=on go install github.com/tcnksm/ghr
+	GO111MODULE=on go install github.com/mholt/archiver/cmd/arc
 
 test:
 	go test ./...
