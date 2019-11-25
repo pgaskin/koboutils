@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/geek1011/koboutils/kobo"
+	"github.com/geek1011/koboutils/v2/kobo"
 	"github.com/spf13/pflag"
 )
 

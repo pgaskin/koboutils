@@ -1,4 +1,4 @@
-module github.com/geek1011/koboutils
+module github.com/geek1011/koboutils/v2
 
 go 1.13
 
