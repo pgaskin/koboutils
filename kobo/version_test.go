@@ -53,6 +53,32 @@ func TestParseKoboVersion(t *testing.T) {
 	}
 }
 
+func TestParseKoboAffiliate(t *testing.T) {
+	if err := fakekobo(func(kpath string) {
+		aff, err := ParseKoboAffiliate(kpath)
+		if err != nil {
+			t.Error(err)
+		} else if aff != "Kobo" {
+			t.Errorf("expected Kobo, got %#v", aff)
+		}
+	}); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestIsKobo(t *testing.T) {
+	if err := fakekobo(func(kpath string) {
+		if !IsKobo(kpath) {
+			t.Errorf("expected fake kobo to be a kobo")
+		}
+	}); err != nil {
+		t.Fatal(err)
+	}
+	if IsKobo(".") {
+		t.Errorf("expected current dir not to be a kobo")
+	}
+}
+
 func fakekobo(fn func(kpath string)) error {
 	td, err := ioutil.TempDir("", "koboutils")
 	if err != nil {
@@ -68,6 +94,11 @@ func fakekobo(fn func(kpath string)) error {
 	err = ioutil.WriteFile(filepath.Join(td, ".kobo", "version"), []byte("N345345345,3.0.35+,4.8.11073,3.0.35+,3.0.35+,00000000-0000-0000-0000-000000000375"), 0644)
 	if err != nil {
 		return fmt.Errorf("could not write fake version file: %v", err)
+	}
+
+	err = ioutil.WriteFile(filepath.Join(td, ".kobo", "affiliate.conf"), []byte("[General]\naffiliate=Kobo"), 0644)
+	if err != nil {
+		return fmt.Errorf("could not write fake affiliate file: %v", err)
 	}
 
 	fn(td)
