@@ -1,7 +1,7 @@
 .PHONY: default
 default: clean test build
 
-ver := $(shell git describe --tags --always --dirty)
+ver := $(shell git describe --tags --always)
 ldflags := -X main.version=$(ver)
 
 .PHONY: clean deps test build
