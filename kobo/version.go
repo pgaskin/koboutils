@@ -35,7 +35,7 @@ func ParseKoboVersion(kpath string) (serial, version, id string, err error) {
 	if err != nil {
 		return "", "", "", err
 	}
-	spl := strings.Split(string(vbuf), ",")
+	spl := strings.Split(strings.TrimSpace(string(vbuf)), ",")
 	if len(spl) != 6 {
 		return "", "", "", fmt.Errorf("length of split version file should be 6, got %d", len(spl))
 	}

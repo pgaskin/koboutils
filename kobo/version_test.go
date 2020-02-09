@@ -91,7 +91,9 @@ func fakekobo(fn func(kpath string)) error {
 		return fmt.Errorf("could make fake .kobo dir: %v", err)
 	}
 
-	err = ioutil.WriteFile(filepath.Join(td, ".kobo", "version"), []byte("N345345345,3.0.35+,4.8.11073,3.0.35+,3.0.35+,00000000-0000-0000-0000-000000000375"), 0644)
+	// the actual file doesn't have a newline, but we're adding it here to test
+	// trimming spaces (for people who edit the file manually)
+	err = ioutil.WriteFile(filepath.Join(td, ".kobo", "version"), []byte("N345345345,3.0.35+,4.8.11073,3.0.35+,3.0.35+,00000000-0000-0000-0000-000000000375\n"), 0644)
 	if err != nil {
 		return fmt.Errorf("could not write fake version file: %v", err)
 	}
