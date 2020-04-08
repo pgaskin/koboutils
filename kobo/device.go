@@ -411,7 +411,7 @@ func (d Device) StorageGB() int {
 	panic("unknown device")
 }
 
-// DisplayPPI returns the display Pixels Per Inch (PPI) of a Device
+// DisplayPPI returns the display Pixels Per Inch (PPI) of a Device.
 func (d Device) DisplayPPI() int {
 	switch d {
 	case DeviceTouchAB, DeviceTouchC, DeviceTouch2:
