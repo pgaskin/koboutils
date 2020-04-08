@@ -419,7 +419,7 @@ func (d Device) DisplayPPI() int {
 	case DeviceMini:
 		return 200
 	case DeviceAura, DeviceGlo, DeviceAuraEdition2v1, DeviceAuraEdition2v2:
-		return 213
+		return 212
 	case DeviceAuraHD, DeviceAuraH2O, DeviceAuraH2OEdition2v1, DeviceAuraH2OEdition2v2:
 		return 265
 	case DeviceClaraHD, DeviceLibraH2O, DeviceAuraONE, DeviceForma, DeviceGloHD, DeviceAuraONELimitedEdition, DeviceForma32:
