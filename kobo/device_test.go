@@ -72,6 +72,7 @@ func TestSwitchCases(t *testing.T) {
 			d.Name,
 			d.StorageGB,
 			d.String,
+			d.DisplayPPI,
 		} {
 			if panics(fn) {
 				t.Errorf("%s: %s panics", d, reflect.ValueOf(fn))
