@@ -410,3 +410,20 @@ func (d Device) StorageGB() int {
 	}
 	panic("unknown device")
 }
+
+// DisplayPPI returns the display Pixels Per Inch (PPI) of a Device.
+func (d Device) DisplayPPI() int {
+	switch d {
+	case DeviceTouchAB, DeviceTouchC, DeviceTouch2:
+		return 167
+	case DeviceMini:
+		return 200
+	case DeviceAura, DeviceGlo, DeviceAuraEdition2v1, DeviceAuraEdition2v2:
+		return 212
+	case DeviceAuraHD, DeviceAuraH2O, DeviceAuraH2OEdition2v1, DeviceAuraH2OEdition2v2:
+		return 265
+	case DeviceClaraHD, DeviceLibraH2O, DeviceAuraONE, DeviceForma, DeviceGloHD, DeviceAuraONELimitedEdition, DeviceForma32:
+		return 300
+	}
+	panic("unknown device")
+}
