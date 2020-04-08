@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"path/filepath"
 	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -53,4 +54,17 @@ func ParseKoboAffiliate(kpath string) (affiliate string, err error) {
 		return "", errors.New("could not parse affiliate.conf")
 	}
 	return m[1], nil
+}
+
+// ParseKoboUAString parses a web browser UA string for Kobo ID and version info.
+func ParseKoboUAString(ua string) (version, id string, err error) {
+	m := regexp.MustCompile(`.+\(Kobo Touch (\d+)/(\d+\.\d+.\d+)\)`).FindStringSubmatch(ua)
+	if len(m) != 3 {
+		return "", "", errors.New("could not parse UA string")
+	}
+	idInt, err := strconv.Atoi(m[1])
+	if err != nil {
+		return "", "", errors.New("could not parse device id")
+	}
+	return m[2], fmt.Sprintf("00000000-0000-0000-0000-%012d", idInt), nil
 }

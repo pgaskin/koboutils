@@ -1,6 +1,7 @@
 package kobo
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -63,6 +64,40 @@ func TestParseKoboAffiliate(t *testing.T) {
 		}
 	}); err != nil {
 		t.Fatal(err)
+	}
+}
+
+func TestParseKoboUAString(t *testing.T) {
+	for _, tt := range []struct {
+		name         string
+		ua           string
+		expectedVers string
+		expectedID   string
+		expectedErr  error
+	}{
+		{
+			name:         "Kobo H2O UA",
+			ua:           "Mozilla/5.0 (Linux; U; Android 2.0; en-us;) AppleWebKit/538.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/538.1 (Kobo Touch 0370/4.20.14622)",
+			expectedVers: "4.20.14622", expectedID: "00000000-0000-0000-0000-000000000370", expectedErr: nil,
+		},
+		{
+			name:         "Desktop Chrome UA",
+			ua:           "Mozilla/5.0 (Linux; Android 8.0.0; SM-G930F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.162 Mobile Safari/537.36",
+			expectedVers: "", expectedID: "", expectedErr: errors.New("could not parse UA string"),
+		},
+	} {
+		t.Run(tt.name, func(t *testing.T) {
+			vers, id, err := ParseKoboUAString(tt.ua)
+			if vers != tt.expectedVers {
+				t.Errorf("unexpected vers, want '%s' got '%s'\n", tt.expectedVers, vers)
+			}
+			if id != tt.expectedID {
+				t.Errorf("unexpected ID, want '%s' got '%s'\n", tt.expectedID, id)
+			}
+			if (err != tt.expectedErr) && (err != nil && tt.expectedErr != nil) && (err.Error() != tt.expectedErr.Error()) {
+				t.Errorf("unexpected err, want '%v' got '%v'\n", tt.expectedErr, err)
+			}
+		})
 	}
 }
 
