@@ -62,7 +62,7 @@ func ParseKoboUAString(ua string) (version, id string, err error) {
 	if len(m) != 3 {
 		return "", "", errors.New("could not parse UA string")
 	}
-	idInt, err := strconv.ParseInt(strings.TrimLeft(m[1], "0"), 10, 32)
+	idInt, err := strconv.Atoi(m[1])
 	if err != nil {
 		return "", "", errors.New("could not parse device id")
 	}
