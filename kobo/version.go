@@ -56,7 +56,7 @@ func ParseKoboAffiliate(kpath string) (affiliate string, err error) {
 	return m[1], nil
 }
 
-// ParseKoboUAString parses a web browser UA string for Kobo ID and version info
+// ParseKoboUAString parses a web browser UA string for Kobo ID and version info.
 func ParseKoboUAString(ua string) (version, id string, err error) {
 	m := regexp.MustCompile(`.+\(Kobo Touch (\d+)/(\d+\.\d+.\d+)\)`).FindStringSubmatch(ua)
 	if len(m) != 3 {
