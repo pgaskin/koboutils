@@ -68,7 +68,7 @@ func TestParseKoboAffiliate(t *testing.T) {
 }
 
 func TestParseKoboUAString(t *testing.T) {
-	tests := []struct {
+	for _, tt := range []struct {
 		name         string
 		ua           string
 		expectedVers string
@@ -85,8 +85,7 @@ func TestParseKoboUAString(t *testing.T) {
 			ua:           "Mozilla/5.0 (Linux; Android 8.0.0; SM-G930F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.162 Mobile Safari/537.36",
 			expectedVers: "", expectedID: "", expectedErr: errors.New("could not parse UA string"),
 		},
-	}
-	for _, tt := range tests {
+	} {
 		t.Run(tt.name, func(t *testing.T) {
 			vers, id, err := ParseKoboUAString(tt.ua)
 			if vers != tt.expectedVers {
