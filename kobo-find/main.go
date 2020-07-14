@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/geek1011/koboutils/v2/kobo"
+	"github.com/pgaskin/koboutils/v2/kobo"
 	"github.com/spf13/pflag"
 )
 

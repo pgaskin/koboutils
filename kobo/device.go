@@ -6,7 +6,7 @@ import (
 	"image"
 )
 
-// See https://gist.github.com/geek1011/613b34c23f026f7c39c50ee32f5e167e and
+// See https://gist.github.com/pgaskin/613b34c23f026f7c39c50ee32f5e167e and
 // https://github.com/shermp/Kobo-UNCaGED/issues/16
 
 // Device is a device model.
@@ -51,6 +51,7 @@ const (
 	DeviceAuraEdition2v2        Device = 379
 	DeviceForma32               Device = 380
 	DeviceAuraONELimitedEdition Device = 381
+	DeviceNia                   Device = 382
 	DeviceLibraH2O              Device = 384
 )
 
