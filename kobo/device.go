@@ -361,7 +361,7 @@ func (d Device) CoverSize(t CoverType) image.Point {
 	}
 
 	switch d.CodeNames().Family() {
-	case CodeNameDragon, CodeNameSnow, CodeNameEuropa:
+	case CodeNameDragon, CodeNameSnow:
 		return image.Pt(1080, 1440)
 	case CodeNameDahlia:
 		return image.Pt(1080, 1429)
@@ -369,7 +369,7 @@ func (d Device) CoverSize(t CoverType) image.Point {
 		return image.Pt(1072, 1448)
 	case CodeNameStorm, CodeNameIo:
 		return image.Pt(1264, 1680)
-	case CodeNameDaylight:
+	case CodeNameDaylight, CodeNameEuropa:
 		return image.Pt(1404, 1872)
 	case CodeNameFrost:
 		return image.Pt(1440, 1920)
