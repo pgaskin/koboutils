@@ -53,6 +53,7 @@ const (
 	DeviceAuraONELimitedEdition Device = 381
 	DeviceNia                   Device = 382
 	DeviceLibraH2O              Device = 384
+	DeviceLibra2                Device = 388
 )
 
 // Hardware revisions.
@@ -62,6 +63,7 @@ const (
 	HardwareKobo5 Hardware = 5
 	HardwareKobo6 Hardware = 6
 	HardwareKobo7 Hardware = 7
+	HardwareKobo9 Hardware = 9
 )
 
 // Codenames.
@@ -89,6 +91,7 @@ const (
 	CodeNameKraken        CodeName = "kraken"
 	CodeNameStar          CodeName = "star"
 	CodeNameLuna          CodeName = "luna"
+	CodeNameIo            CodeName = "io"
 )
 
 // Cover types.
@@ -101,7 +104,7 @@ const (
 
 // Devices returns a slice of all supported devices.
 func Devices() []Device {
-	return []Device{DeviceTouchAB, DeviceTouchC, DeviceGlo, DeviceMini, DeviceAuraHD, DeviceAura, DeviceAuraH2O, DeviceGloHD, DeviceTouch2, DeviceAuraONE, DeviceAuraH2OEdition2v1, DeviceAuraEdition2v1, DeviceClaraHD, DeviceForma, DeviceAuraH2OEdition2v2, DeviceAuraEdition2v2, DeviceForma32, DeviceAuraONELimitedEdition, DeviceNia, DeviceLibraH2O}
+	return []Device{DeviceTouchAB, DeviceTouchC, DeviceGlo, DeviceMini, DeviceAuraHD, DeviceAura, DeviceAuraH2O, DeviceGloHD, DeviceTouch2, DeviceAuraONE, DeviceAuraH2OEdition2v1, DeviceAuraEdition2v1, DeviceClaraHD, DeviceForma, DeviceAuraH2OEdition2v2, DeviceAuraEdition2v2, DeviceForma32, DeviceAuraONELimitedEdition, DeviceNia, DeviceLibraH2O, DeviceLibra2}
 }
 
 // CoverTypes returns a slice of all implemented nickel cover types.
@@ -170,6 +173,8 @@ func (d Device) Hardware() Hardware {
 		return HardwareKobo6
 	case DeviceAuraH2OEdition2v2, DeviceAuraEdition2v2, DeviceClaraHD, DeviceForma, DeviceForma32, DeviceNia, DeviceLibraH2O:
 		return HardwareKobo7
+	case DeviceLibra2:
+		return HardwareKobo9
 	}
 	panic("unknown device")
 }
@@ -214,7 +219,9 @@ func (d Device) CodeNames() CodeNameTriplet {
 	case DeviceClaraHD:
 		return CodeNameTriplet{CodeNameDragon, CodeNameNova, CodeNameNone}
 	case DeviceLibraH2O:
-		return CodeNameTriplet{CodeNameDragon, CodeNameStorm, CodeNameNone}
+		return CodeNameTriplet{CodeNameDragon, CodeNameStorm, CodeNameNone
+	case DeviceLibra2:
+		return CodeNameTriplet{CodeNameDragon, CodeNameIo, CodeNameNone}	
 
 	case DeviceAuraONE:
 		return CodeNameTriplet{CodeNameDaylight, CodeNameDaylight, CodeNameNone}
@@ -306,6 +313,8 @@ func (c CodeNameTriplet) FamilyString() string {
 		return "Kobo Aura"
 	case CodeNameLuna:
 		return "Kobo Nia"
+	case CodeNameIo:
+		return "Kobo Libra 2"
 	}
 	panic("unknown family")
 }
@@ -349,7 +358,7 @@ func (d Device) CoverSize(t CoverType) image.Point {
 		return image.Pt(1080, 1429)
 	case CodeNameAlyssum, CodeNameNova:
 		return image.Pt(1072, 1448)
-	case CodeNameStorm:
+	case CodeNameStorm, CodeNameIo:
 		return image.Pt(1264, 1680)
 	case CodeNameDaylight:
 		return image.Pt(1404, 1872)
@@ -411,7 +420,7 @@ func (d Device) StorageGB() int {
 		return 4
 	case DeviceAuraH2OEdition2v1, DeviceAuraH2OEdition2v2, DeviceClaraHD, DeviceLibraH2O, DeviceAuraONE, DeviceForma, DeviceNia:
 		return 8
-	case DeviceAuraONELimitedEdition, DeviceForma32:
+	case DeviceAuraONELimitedEdition, DeviceForma32, DeviceLibra2:
 		return 32
 	}
 	panic("unknown device")
@@ -428,7 +437,7 @@ func (d Device) DisplayPPI() int {
 		return 212
 	case DeviceAuraHD, DeviceAuraH2O, DeviceAuraH2OEdition2v1, DeviceAuraH2OEdition2v2:
 		return 265
-	case DeviceClaraHD, DeviceLibraH2O, DeviceAuraONE, DeviceForma, DeviceGloHD, DeviceAuraONELimitedEdition, DeviceForma32:
+	case DeviceClaraHD, DeviceLibraH2O, DeviceAuraONE, DeviceForma, DeviceGloHD, DeviceAuraONELimitedEdition, DeviceForma32, DeviceLibra2:
 		return 300
 	}
 	panic("unknown device")
