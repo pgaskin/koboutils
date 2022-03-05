@@ -219,7 +219,7 @@ func (d Device) CodeNames() CodeNameTriplet {
 	case DeviceClaraHD:
 		return CodeNameTriplet{CodeNameDragon, CodeNameNova, CodeNameNone}
 	case DeviceLibraH2O:
-		return CodeNameTriplet{CodeNameDragon, CodeNameStorm, CodeNameNone
+		return CodeNameTriplet{CodeNameDragon, CodeNameStorm, CodeNameNone}
 	case DeviceLibra2:
 		return CodeNameTriplet{CodeNameDragon, CodeNameIo, CodeNameNone}	
 
