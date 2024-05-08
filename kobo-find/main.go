@@ -4,11 +4,10 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/pgaskin/koboutils/v2/internal"
 	"github.com/pgaskin/koboutils/v2/kobo"
 	"github.com/spf13/pflag"
 )
-
-var version = "dev"
 
 func main() {
 	first := pflag.BoolP("first", "f", false, "only show the first kobo detected")
@@ -18,7 +17,7 @@ func main() {
 
 	if *help || pflag.NArg() != 0 {
 		fmt.Fprintf(os.Stderr, "Usage: kobo-find [OPTIONS]\n")
-		fmt.Fprintf(os.Stderr, "\nVersion: %s\n\nOptions:\n", version)
+		fmt.Fprintf(os.Stderr, "\nVersion: %s\n\nOptions:\n", internal.VersionName())
 		pflag.PrintDefaults()
 		fmt.Fprintf(os.Stderr, "\nkobo-find requires the findmnt command on linux.\n")
 		os.Exit(1)

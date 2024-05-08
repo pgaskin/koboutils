@@ -14,10 +14,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/pgaskin/koboutils/v2/internal"
 	"github.com/spf13/pflag"
 )
-
-var version = "dev"
 
 func main() {
 	help := pflag.BoolP("help", "h", false, "show this help text")
@@ -25,7 +24,7 @@ func main() {
 
 	if *help || pflag.NArg() != 1 {
 		fmt.Fprintf(os.Stderr, "Usage: kobo-versionextract [OPTIONS] PATH_TO_FW\n")
-		fmt.Fprintf(os.Stderr, "\nVersion: %s\n\nOptions:\n", version)
+		fmt.Fprintf(os.Stderr, "\nVersion: %s\n\nOptions:\n", internal.VersionName())
 		pflag.PrintDefaults()
 		fmt.Fprintf(os.Stderr, "\nPATH_TO_FW is either the path to a KoboRoot.tgz, libnickel.so, or a kobo update zip.\n\nNote that kobo-versionextract only works with firmware 4.7.10413 and later.\n")
 		os.Exit(1)
