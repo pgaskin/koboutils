@@ -1,5 +1,5 @@
 # kobo-versionextract
-Extracts the version from an update zip or a KoboRoot.tgz.
+Extracts the version from an update zip or a KoboRoot.tgz. Deprecated in favour of [kobo-fwinfo](../kobo-fwinfo/).
 
 ````
 Usage: kobo-versionextract [OPTIONS] PATH_TO_FW
