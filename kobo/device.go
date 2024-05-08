@@ -46,7 +46,9 @@ const (
 	DeviceAuraH2OEdition2v1     Device = 374
 	DeviceAuraEdition2v1        Device = 375
 	DeviceClaraHD               Device = 376
+	DeviceShine3                Device = 676
 	DeviceForma                 Device = 377
+	DeviceEpos2                 Device = 677
 	DeviceAuraH2OEdition2v2     Device = 378
 	DeviceAuraEdition2v2        Device = 379
 	DeviceForma32               Device = 380
@@ -58,6 +60,12 @@ const (
 	DeviceElipsa                Device = 387
 	DeviceLibra2                Device = 388
 	DeviceElipsa2E              Device = 389
+	DeviceLibraColour           Device = 390
+	DeviceVisionColour          Device = 690
+	DeviceClaraBW               Device = 391
+	DeviceShine                 Device = 691
+	DeviceClaraColour           Device = 393
+	DeviceShineColor            Device = 693
 )
 
 // Hardware revisions.
@@ -71,38 +79,47 @@ const (
 	HardwareKobo9  Hardware = 9
 	HardwareKobo10 Hardware = 10
 	HardwareKobo11 Hardware = 11
+	HardwareKobo12 Hardware = 12
 )
 
 // Codenames.
 const (
-	CodeNameNone          CodeName = ""
-	CodeNameDesktop       CodeName = "desktop"
-	CodeNameNickel1       CodeName = "nickel1"
-	CodeNameNickel2       CodeName = "nickel2"
-	CodeNameMerch         CodeName = "merch"
-	CodeNameVox           CodeName = "vox"
-	CodeNameTrilogy       CodeName = "trilogy"
-	CodeNamePixie         CodeName = "pixie"
-	CodeNamePika          CodeName = "pika"
-	CodeNameDragon        CodeName = "dragon"
-	CodeNameDahlia        CodeName = "dahlia"
-	CodeNameAlyssum       CodeName = "alyssum"
-	CodeNameSnow          CodeName = "snow"
-	CodeNameNova          CodeName = "nova"
-	CodeNameStorm         CodeName = "storm"
-	CodeNameDaylight      CodeName = "daylight"
-	CodeNameSuperDaylight CodeName = "superDaylight"
-	CodeNameFrost         CodeName = "frost"
-	CodeNameFrost32       CodeName = "frost32"
-	CodeNamePhoenix       CodeName = "phoenix"
-	CodeNameKraken        CodeName = "kraken"
-	CodeNameStar          CodeName = "star"
-	CodeNameCadmus        CodeName = "cadmus"
-	CodeNameLuna          CodeName = "luna"
-	CodeNameGoldfinch     CodeName = "goldfinch"
-	CodeNameEuropa        CodeName = "europa"
-	CodeNameIo            CodeName = "io"
-	CodeNameCondor        CodeName = "condor"
+	CodeNameNone            CodeName = ""
+	CodeNameDesktop         CodeName = "desktop"
+	CodeNameNickel1         CodeName = "nickel1"
+	CodeNameNickel2         CodeName = "nickel2"
+	CodeNameMerch           CodeName = "merch"
+	CodeNameVox             CodeName = "vox"
+	CodeNameTrilogy         CodeName = "trilogy"
+	CodeNamePixie           CodeName = "pixie"
+	CodeNamePika            CodeName = "pika"
+	CodeNameDragon          CodeName = "dragon"
+	CodeNameDahlia          CodeName = "dahlia"
+	CodeNameAlyssum         CodeName = "alyssum"
+	CodeNameSnow            CodeName = "snow"
+	CodeNameNova            CodeName = "nova"
+	CodeNameStorm           CodeName = "storm"
+	CodeNameDaylight        CodeName = "daylight"
+	CodeNameSuperDaylight   CodeName = "superDaylight"
+	CodeNameFrost           CodeName = "frost"
+	CodeNameFrost32         CodeName = "frost32"
+	CodeNamePhoenix         CodeName = "phoenix"
+	CodeNameKraken          CodeName = "kraken"
+	CodeNameStar            CodeName = "star"
+	CodeNameCadmus          CodeName = "cadmus"
+	CodeNameLuna            CodeName = "luna"
+	CodeNameGoldfinch       CodeName = "goldfinch"
+	CodeNameEuropa          CodeName = "europa"
+	CodeNameIo              CodeName = "io"
+	CodeNameCondor          CodeName = "condor"
+	CodeNameMonza           CodeName = "monza"
+	CodeNameMonzaTolino     CodeName = "monzaTolino"
+	CodeNameSpaBW           CodeName = "spaBW"
+	CodeNameSpaTolinoBW     CodeName = "spaTolinoBW"
+	CodeNameSpaColour       CodeName = "spaColour"
+	CodeNameSpaTolinoColour CodeName = "spaTolinoColour"
+	CodeNameLoki            CodeName = "loki"
+	CodeNameFreya           CodeName = "freya"
 )
 
 // Cover types.
@@ -141,6 +158,10 @@ func (d Device) ID() int {
 // IDString returns the full ID string.
 func (d Device) IDString() string {
 	return fmt.Sprintf("00000000-0000-0000-0000-%012d", d.ID())
+}
+
+func (d Device) IsTolino() bool {
+	return d.ID()/100 == 6
 }
 
 func (d Device) String() string {
@@ -182,7 +203,7 @@ func (d Device) Hardware() Hardware {
 		return HardwareKobo5
 	case DeviceGloHD, DeviceTouch2, DeviceAuraH2OEdition2v1, DeviceAuraONE, DeviceAuraONELimitedEdition, DeviceAuraEdition2v1:
 		return HardwareKobo6
-	case DeviceAuraH2OEdition2v2, DeviceAuraEdition2v2, DeviceClaraHD, DeviceForma, DeviceForma32, DeviceNia, DeviceLibraH2O:
+	case DeviceAuraH2OEdition2v2, DeviceAuraEdition2v2, DeviceClaraHD, DeviceShine3, DeviceForma, DeviceEpos2, DeviceForma32, DeviceNia, DeviceLibraH2O:
 		return HardwareKobo7
 	case DeviceSage, DeviceElipsa:
 		return HardwareKobo8
@@ -190,8 +211,10 @@ func (d Device) Hardware() Hardware {
 		return HardwareKobo9
 	case DeviceClara2E:
 		return HardwareKobo10
-	case DeviceElipsa2E:
+	case DeviceElipsa2E, DeviceLibraColour, DeviceVisionColour:
 		return HardwareKobo11
+	case DeviceClaraBW, DeviceShine, DeviceClaraColour, DeviceShineColor:
+		return HardwareKobo12
 	}
 	panic("unknown device")
 }
@@ -235,6 +258,8 @@ func (d Device) CodeNames() CodeNameTriplet {
 		return CodeNameTriplet{CodeNameDragon, CodeNameSnow, CodeNameNone}
 	case DeviceClaraHD:
 		return CodeNameTriplet{CodeNameDragon, CodeNameNova, CodeNameNone}
+	case DeviceShine3:
+		return CodeNameTriplet{CodeNameDragon, CodeNameLoki, CodeNameNone}
 	case DeviceLibraH2O:
 		return CodeNameTriplet{CodeNameDragon, CodeNameStorm, CodeNameNone}
 	case DeviceClara2E:
@@ -245,6 +270,18 @@ func (d Device) CodeNames() CodeNameTriplet {
 		return CodeNameTriplet{CodeNameDragon, CodeNameIo, CodeNameNone}
 	case DeviceElipsa2E:
 		return CodeNameTriplet{CodeNameDragon, CodeNameCondor, CodeNameNone}
+	case DeviceLibraColour:
+		return CodeNameTriplet{CodeNameDragon, CodeNameMonza, CodeNameNone}
+	case DeviceVisionColour:
+		return CodeNameTriplet{CodeNameDragon, CodeNameMonzaTolino, CodeNameNone}
+	case DeviceClaraBW:
+		return CodeNameTriplet{CodeNameDragon, CodeNameSpaBW, CodeNameNone}
+	case DeviceShine:
+		return CodeNameTriplet{CodeNameDragon, CodeNameSpaTolinoBW, CodeNameNone}
+	case DeviceClaraColour:
+		return CodeNameTriplet{CodeNameDragon, CodeNameSpaColour, CodeNameNone}
+	case DeviceShineColor:
+		return CodeNameTriplet{CodeNameDragon, CodeNameSpaTolinoColour, CodeNameNone}
 
 	case DeviceAuraONE:
 		return CodeNameTriplet{CodeNameDaylight, CodeNameDaylight, CodeNameNone}
@@ -252,6 +289,8 @@ func (d Device) CodeNames() CodeNameTriplet {
 		return CodeNameTriplet{CodeNameDaylight, CodeNameDaylight, CodeNameSuperDaylight}
 	case DeviceForma:
 		return CodeNameTriplet{CodeNameDaylight, CodeNameFrost, CodeNameNone}
+	case DeviceEpos2:
+		return CodeNameTriplet{CodeNameDaylight, CodeNameFreya, CodeNameNone}
 	case DeviceForma32:
 		return CodeNameTriplet{CodeNameDaylight, CodeNameFrost, CodeNameFrost32}
 	case DeviceSage:
@@ -348,6 +387,22 @@ func (c CodeNameTriplet) FamilyString() string {
 		return "Kobo Libra 2"
 	case CodeNameCondor:
 		return "Kobo Elipsa 2E"
+	case CodeNameMonza:
+		return "Kobo Libra Colour"
+	case CodeNameMonzaTolino:
+		return "tolino vision color"
+	case CodeNameSpaBW:
+		return "Kobo Clara BW"
+	case CodeNameSpaTolinoBW:
+		return "Kobo Clara Colour"
+	case CodeNameSpaColour:
+		return "tolino shine"
+	case CodeNameSpaTolinoColour:
+		return "tolino shine color"
+	case CodeNameLoki:
+		return "tolino Shine 3"
+	case CodeNameFreya:
+		return "tolino Epos 2"
 	}
 	panic("unknown family")
 }
@@ -451,11 +506,11 @@ func (d Device) StorageGB() int {
 		return 2
 	case DeviceTouch2, DeviceAuraHD, DeviceAuraH2O, DeviceGloHD, DeviceAura, DeviceGlo, DeviceAuraEdition2v1, DeviceAuraEdition2v2:
 		return 4
-	case DeviceAuraH2OEdition2v1, DeviceAuraH2OEdition2v2, DeviceClaraHD, DeviceLibraH2O, DeviceAuraONE, DeviceForma, DeviceNia:
+	case DeviceAuraH2OEdition2v1, DeviceAuraH2OEdition2v2, DeviceClaraHD, DeviceShine3, DeviceLibraH2O, DeviceAuraONE, DeviceForma, DeviceEpos2, DeviceNia:
 		return 8
-	case DeviceClara2E:
+	case DeviceClara2E, DeviceClaraBW, DeviceShine, DeviceClaraColour, DeviceShineColor:
 		return 16
-	case DeviceAuraONELimitedEdition, DeviceForma32, DeviceSage, DeviceElipsa, DeviceLibra2, DeviceElipsa2E:
+	case DeviceAuraONELimitedEdition, DeviceForma32, DeviceSage, DeviceElipsa, DeviceLibra2, DeviceElipsa2E, DeviceLibraColour, DeviceVisionColour:
 		return 32
 	}
 	panic("unknown device")
@@ -474,7 +529,7 @@ func (d Device) DisplayPPI() int {
 		return 227
 	case DeviceAuraHD, DeviceAuraH2O, DeviceAuraH2OEdition2v1, DeviceAuraH2OEdition2v2:
 		return 265
-	case DeviceClaraHD, DeviceLibraH2O, DeviceAuraONE, DeviceForma, DeviceGloHD, DeviceAuraONELimitedEdition, DeviceForma32, DeviceSage, DeviceLibra2, DeviceClara2E:
+	case DeviceClaraHD, DeviceShine3, DeviceLibraH2O, DeviceAuraONE, DeviceForma, DeviceEpos2, DeviceGloHD, DeviceAuraONELimitedEdition, DeviceForma32, DeviceSage, DeviceLibra2, DeviceClara2E, DeviceClaraBW, DeviceShine, DeviceClaraColour, DeviceShineColor, DeviceLibraColour, DeviceVisionColour:
 		return 300
 	}
 	panic("unknown device")
