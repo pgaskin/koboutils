@@ -132,7 +132,7 @@ const (
 
 // Devices returns a slice of all supported devices.
 func Devices() []Device {
-	return []Device{DeviceTouchAB, DeviceTouchC, DeviceGlo, DeviceMini, DeviceAuraHD, DeviceAura, DeviceAuraH2O, DeviceGloHD, DeviceTouch2, DeviceAuraONE, DeviceAuraH2OEdition2v1, DeviceAuraEdition2v1, DeviceClaraHD, DeviceForma, DeviceAuraH2OEdition2v2, DeviceAuraEdition2v2, DeviceForma32, DeviceAuraONELimitedEdition, DeviceNia, DeviceSage, DeviceLibraH2O, DeviceClara2E, DeviceElipsa, DeviceLibra2, DeviceElipsa2E}
+	return []Device{DeviceTouchAB, DeviceTouchC, DeviceGlo, DeviceMini, DeviceAuraHD, DeviceAura, DeviceAuraH2O, DeviceGloHD, DeviceTouch2, DeviceAuraONE, DeviceAuraH2OEdition2v1, DeviceAuraEdition2v1, DeviceClaraHD, DeviceShine3, DeviceForma, DeviceEpos2, DeviceAuraH2OEdition2v2, DeviceAuraEdition2v2, DeviceForma32, DeviceAuraONELimitedEdition, DeviceNia, DeviceSage, DeviceLibraH2O, DeviceClara2E, DeviceElipsa, DeviceLibra2, DeviceElipsa2E, DeviceLibraColour, DeviceVisionColour, DeviceClaraBW, DeviceShine, DeviceClaraColour, DeviceShineColor}
 }
 
 // CoverTypes returns a slice of all implemented nickel cover types.
