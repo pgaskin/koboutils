@@ -36,6 +36,7 @@ const (
 	UpgradeTypeNone      UpgradeType = 0 // No upgrade available.
 	UpgradeTypeAvailable UpgradeType = 1 // Optional update, but never seen this before.
 	UpgradeTypeRequired  UpgradeType = 2 // Automatic update.
+	UpgradeTypeForced    UpgradeType = 3 // Returned if the version you pass the api is very outdated (ie 0.0.0).
 )
 
 func (u UpgradeType) String() string {
@@ -46,6 +47,8 @@ func (u UpgradeType) String() string {
 		return "Available"
 	case UpgradeTypeRequired:
 		return "Required"
+	case UpgradeTypeForced:
+		return "Forced"
 	default:
 		return "Unknown (" + strconv.Itoa(int(u)) + ")"
 	}
